@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LamiPanda — Краса у деталях</title>
+    <!-- Шрифти Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Іконки FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent: #FF3B30;
+            --accent-gradient: linear-gradient(135deg, #FF5E55 0%, #FF2A20 100%);
+            --bg-gradient: linear-gradient(135deg, #1a1214 0%, #2b181a 50%, #1f1416 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-hover: rgba(255, 255, 255, 0.12);
+            --border-glow: rgba(255, 59, 48, 0.4);
+            --text-main: #FFFFFF;
+            --text-muted: #D1CBCB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Декоративні світлові плями на фоні */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(80px);
+            opacity: 0.35;
+        }
+        body::before {
+            top: -50px;
+            left: -50px;
+            background: #FF3B30;
+        }
+        body::after {
+            bottom: -50px;
+            right: -50px;
+            background: #FF9F0A;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Шапка профілю */
+        .profile {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 59, 48, 0.15);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #FF736B;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .username {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E0D0D0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bio {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* Неоновий промо-бокс */
+        .promo-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .promo-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #FF9F0A;
+            margin-bottom: 10px;
+        }
+
+        .promo-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            padding: 8px 8px 8px 16px;
+            border-radius: 14px;
+        }
+
+        .promo-code {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+        }
+
+        .copy-btn {
+            background: var(--accent-gradient);
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px var(--border-glow);
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .copy-success {
+            font-size: 12px;
+            color: #34C759;
+            margin-top: 8px;
+            display: none;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Список кнопок (Glassmorphism) */
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn:hover {
+            background: var(--card-hover);
+            border-color: rgba(255, 59, 48, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px var(--border-glow);
+        }
+
+        .link-btn .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .link-btn i.icon {
+            font-size: 18px;
+            color: #FF5E55;
+            width: 24px;
+            text-align: center;
+        }
+
+        .link-btn i.arrow {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .link-btn:hover i.arrow {
+            transform: translateX(4px);
+            color: #FF5E55;
+        }
+
+        /* Головна (акцентна) кнопка каталогу */
+        .link-btn.primary {
+            background: var(--accent-gradient);
+            border: none;
+            box-shadow: 0 10px 30px var(--border-glow);
+        }
+
+        .link-btn.primary i {
+            color: #FFFFFF;
+        }
+
+        .link-btn.primary:hover {
+            opacity: 0.95;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 59, 48, 0.6);
+        }
+
+        /* Секція месенджерів */
+        .messengers-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .messengers-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 8px 20px var(--border-glow);
+        }
+
+        /* Футер */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка профілю -->
+        <div class="profile">
+            <div class="brand-badge">
+                <i class="fa-solid fa-sparkles"></i> Professional Store
+            </div>
+            <h1 class="username">LamiPanda</h1>
+            <p class="bio">Все для лешмейкерів та бровистів 🐼<br>Найвища якість матеріалів для вашої творчості</p>
+        </div>
+
+        <!-- Неоновий промо-блок -->
+        <div class="promo-box">
+            <div class="promo-header">
+                <i class="fa-solid fa-fire"></i> Спеціальна пропозиція
+            </div>
+            <div class="promo-row">
+                <span class="promo-code" id="codeText">PANDA5</span>
+                <button class="copy-btn" onclick="copyPromo()">
+                    <i class="fa-regular fa-copy"></i> Скопіювати
+                </button>
+            </div>
+            <div class="copy-success" id="successMsg">✅ Промокод успішно скопійовано!</div>
+        </div>
+
+        <!-- Кнопки посилань -->
+        <div class="links-list">
+            <a href="https://lamipanda.com/catalog" class="link-btn primary" target="_blank">
+                <div class="btn-content">
+                    <i class="icon fa-solid fa-bag-shopping"></i>
+                    <span>Каталог Товарів</span>
+                </div>
+                <i class="arrow fa-solid fa-chevron-right"></i>
+            </a>
+            
+            <a href="https://lamipanda.com/catalog/vse-dlya-viy" class="link-btn" target="_blank">
+                <div class="btn-content">
+                    <i class="icon fa-solid fa-eye"></i>
+                    <span>Все для вій</span>
+                </div>
+                <i class="arrow fa-solid fa-chevron-right"></i>
+            </a>
+
+            <a href="https://lamipanda.com/catalog/vse-dlya-briv" class="link-btn" target="_blank">
+                <div class="btn-content">
+                    <i class="icon fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Все для брів</span>
+                </div>
+                <i class="arrow fa-solid fa-chevron-right"></i>
+            </a>
+
+            <a href="https://lamipanda.com/" class="link-btn" target="_blank">
+                <div class="btn-content">
+                    <i class="icon fa-solid fa-bolt"></i>
+                    <span>Акції та Бестселлери</span>
+                </div>
+                <i class="arrow fa-solid fa-chevron-right"></i>
+            </a>
+
+            <a href="https://t.me/your_telegram_username" class="link-btn" target="_blank">
+                <div class="btn-content">
+                    <i class="icon fa-brands fa-telegram"></i>
+                    <span>Написати в телеграм</span>
+                </div>
+                <i class="arrow fa-solid fa-chevron-right"></i>
+            </a>
+
+            <a href="viber://chat?number=%2B380000000000" class="link-btn" target="_blank">
+                <div class="btn-content">
+                    <i class="icon fa-brands fa-viber"></i>
+                    <span>Написати у вайбер</span>
+                </div>
+                <i class="arrow fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <!-- Картка месенджерів у футері -->
+        <div class="messengers-card">
+            <div class="messengers-title">Швидкий зв'язок з нами</div>
+            <div class="socials">
+                <a href="viber://chat?number=%2B380000000000" class="social-icon" title="Viber" target="_blank">
+                    <i class="fa-brands fa-viber"></i>
+                </a>
+                <a href="https://t.me/your_telegram_username" class="social-icon" title="Telegram" target="_blank">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <a href="https://wa.me/380000000000" class="social-icon" title="WhatsApp" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            © LamiPanda Store. Всі права захищені.
+        </div>
+    </div>
+
+    <!-- Скрипт для копіювання промокоду -->
+    <script>
+        function copyPromo() {
+            const code = document.getElementById("codeText").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const msg = document.getElementById("successMsg");
+                msg.style.display = "block";
+                setTimeout(() => {
+                    msg.style.display = "none";
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
